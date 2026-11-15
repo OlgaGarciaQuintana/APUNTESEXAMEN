@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>PSP · Zona de práctica</title>
+    <meta name="description"
+        content="Practica procesos, hilos y sincronización con 41 preguntas originales y 64 nuevas.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f7f7f2;
+            --ink: #202b29;
+            --muted: #65716c;
+            --green: #24634c;
+            --line: #dce1d7;
+            --lime: #dbeeb2;
+            --red: #a63838
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 15px 'DM Sans', sans-serif
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        button,
+        a,
+        input,
+        select {
+            touch-action: manipulation
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        button:disabled {
+            opacity: .45;
+            cursor: default
+        }
+
+        a {
+            color: inherit
+        }
+
+        header {
+            height: 94px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5vw
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 23px;
+            text-decoration: none
+        }
+
+        .brand-sub {
+            font-weight: 400;
+            color: var(--muted);
+            font-size: 15px
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--green);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            font-size: 28px
+        }
+
+        .logo span {
+            font-size: 17px
+        }
+
+        .course {
+            font-size: 10px;
+            letter-spacing: 1.5px
+        }
+
+        .course span {
+            margin: 0 8px;
+            color: #7c986c
+        }
+
+        main {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 50px 28px 70px
+        }
+
+        .eyebrow {
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 35px
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Manrope, sans-serif
+        }
+
+        h1 {
+            font-size: 52px;
+            letter-spacing: -2.5px;
+            line-height: 1.12;
+            margin: 16px 0
+        }
+
+        h1 em {
+            font-style: normal;
+            color: var(--green)
+        }
+
+        .sub {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 580px
+        }
+
+        .diagram {
+            height: 175px;
+            position: relative;
+            background: radial-gradient(circle, #dde9d4 1px, transparent 1px);
+            background-size: 14px 14px;
+            border-radius: 50%
+        }
+
+        .node {
+            position: absolute;
+            padding: 13px 20px;
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            box-shadow: 0 6px 15px #263c2910;
+            font-family: monospace
+        }
+
+        .node.a {
+            top: 12px;
+            left: 70px;
+            background: var(--green);
+            color: white
+        }
+
+        .node.b {
+            top: 100px;
+            left: 5px
+        }
+
+        .node.c {
+            top: 100px;
+            right: 0
+        }
+
+        .diagram:before {
+            content: '';
+            position: absolute;
+            left: 65px;
+            top: 60px;
+            width: 150px;
+            height: 50px;
+            border: 1px solid #9cb58c;
+            border-bottom: 0;
+            border-radius: 15px 15px 0 0
+        }
+
+        .stats {
+            display: flex;
+            gap: 35px;
+            margin: 25px 0 35px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .stats b {
+            font-size: 23px;
+            color: var(--ink);
+            margin-right: 7px
+        }
+
+        .section-title {
+            font-size: 19px;
+            margin: 30px 0 18px
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            padding: 28px;
+            background: white;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column
+        }
+
+        .card.featured {
+            background: #edf2e6;
+            border-color: #cedbbc
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .icon {
+            font-size: 23px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: #e7eddf;
+            display: grid;
+            place-items: center
+        }
+
+        .badge,
+        .tag {
+            font-size: 10px;
+            border-radius: 20px;
+            padding: 6px 10px;
+            background: white;
+            border: 1px solid var(--line);
+            font-weight: 700;
+            letter-spacing: .6px
+        }
+
+        .card h2 {
+            font-size: 26px;
+            letter-spacing: -.8px;
+            margin: 22px 0 8px
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--muted);
+            margin: 0 0 22px
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 25px
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0;
+            background: transparent
+        }
+
+        .btn {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 13px 19px;
+            background: white;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-decoration: none
+        }
+
+        .btn.primary {
+            background: var(--green);
+            border-color: var(--green);
+            color: white
+        }
+
+        .card .btn {
+            width: 100%;
+            margin-top: auto;
+            justify-content: space-between
+        }
+
+        .settings {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            padding: 20px 0;
+            border-top: 1px solid var(--line)
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            background: white;
+            color: var(--ink);
+            max-width: 100%
+        }
+
+        label small {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        .tip {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px
+        }
+
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center
+        }
+
+        .link {
+            border: 0;
+            background: none;
+            color: var(--muted);
+            padding: 6px 0
+        }
+
+        .progress {
+            height: 5px;
+            background: var(--line);
+            border-radius: 8px;
+            margin: 22px 0 30px;
+            overflow: hidden
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            background: var(--green)
+        }
+
+        .quiz-layout {
+            display: grid;
+            grid-template-columns: 1fr 245px;
+            gap: 26px
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 32px
+        }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .q-title {
+            font-size: 25px;
+            line-height: 1.5;
+            letter-spacing: -.6px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            outline: none
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin: 25px 0
+        }
+
+        .option {
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            gap: 12px;
+            cursor: pointer;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere
+        }
+
+        .option:has(input:checked) {
+            border-color: var(--green);
+            background: #eff5e9
+        }
+
+        .option input {
+            margin-top: 5px;
+            accent-color: var(--green);
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0
+        }
+
+        .option.good {
+            border-color: #5e997b;
+            background: #edf6ef
+        }
+
+        .option.bad {
+            border-color: #c66b64;
+            background: #fff1ef
+        }
+
+        .letter {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 2px
+        }
+
+        .feedback {
+            padding: 20px;
+            background: #edf6ef;
+            border-radius: 10px;
+            line-height: 1.7;
+            font-size: 14px;
+            margin: 20px 0
+        }
+
+        .feedback.wrong {
+            background: #fff1ef
+        }
+
+        .feedback p {
+            margin: 5px 0
+        }
+
+        .source {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 12px
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px
+        }
+
+        .side {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 20px;
+            align-self: start
+        }
+
+        .side h3 {
+            font-size: 14px;
+            margin: 0 0 16px
+        }
+
+        .navgrid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px
+        }
+
+        .navgrid button {
+            border: 1px solid var(--line);
+            background: white;
+            border-radius: 7px;
+            min-height: 32px;
+            font-size: 11px
+        }
+
+        .navgrid button.answered {
+            background: #deead2
+        }
+
+        .navgrid button.current {
+            outline: 2px solid var(--green)
+        }
+
+        .result-head {
+            text-align: center;
+            padding: 25px
+        }
+
+        .score {
+            font: 800 65px Manrope, sans-serif;
+            color: var(--green);
+            margin: 15px
+        }
+
+        .review-item {
+            background: white;
+            border: 1px solid var(--line);
+            padding: 22px;
+            border-radius: 12px;
+            margin: 12px 0
+        }
+
+        .review-item h3 {
+            font-size: 17px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere
+        }
+
+        .review-item p {
+            line-height: 1.6;
+            overflow-wrap: anywhere
+        }
+
+        .success {
+            color: var(--green)
+        }
+
+        .error {
+            color: var(--red)
+        }
+
+        footer {
+            padding: 25px 5vw;
+            border-top: 1px solid var(--line);
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #a6bd72;
+            outline-offset: 4px
+        }
+
+        @media(max-width:750px) {
+            header {
+                height: 76px
+            }
+
+            .course,
+            .brand-sub,
+            .diagram {
+                display: none
+            }
+
+            main {
+                padding: 30px 18px
+            }
+
+            .hero {
+                display: block
+            }
+
+            h1 {
+                font-size: 39px
+            }
+
+            .cards,
+            .quiz-layout {
+                grid-template-columns: 1fr
+            }
+
+            .stats {
+                gap: 18px
+            }
+
+            .stats b {
+                font-size: 20px
+            }
+
+            .question-card {
+                padding: 20px
+            }
+
+            .q-title {
+                font-size: 21px
+            }
+
+            .side {
+                order: 2
+            }
+
+            .navgrid {
+                grid-template-columns: repeat(8, 1fr)
+            }
+
+            .bottom-row,
+            footer {
+                align-items: start;
+                flex-direction: column
+            }
+
+            .settings {
+                gap: 12px
+            }
+
+            .hero {
+                margin-bottom: 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header><a class="brand" href="#" onclick="home(); return false;"><span class="logo">p<span>↗</span></span> PSP<span
+                class="brand-sub">/ zona de práctica</span></a><span class="course">2º DAM <span>·</span> SERVICIOS Y
+            PROCESOS</span></header>
+    <main id="app"></main>
+    <footer>Hecho para aprender, pregunta a pregunta. <span>Tu progreso se guarda en este navegador.</span></footer>
+    <script>const ORIGINALS = [{"id": "o1", "n": 1, "q": "Quin mètode de Process proporciona l’eixida estàndard?", "options": ["getInputStream()", "getOutputStream()", "getErrorStream()", "getRuntime()"], "correct": [0], "explanation": "La resposta correcta és: getInputStream()", "topic": "Originales", "source": "Cuestionario original · pregunta 1"}, {"id": "o2", "n": 2, "q": "Quins mecanismes permeten comunicar processos?", "options": ["Memòria compartida", "Canonades", "Cues de missatges", "Variables locals després de fork"], "correct": [0, 1, 2], "explanation": "Les respostes correctes són: Canonades, Cues de missatges, Memòria compartida", "topic": "Originales", "source": "Cuestionario original · pregunta 2"}, {"id": "o3", "n": 3, "q": "Quines propietats són habituals dels processos independents?", "options": ["Espais de memòria separats", "Variables locals automàticament compartides", "Comunicació entre els processos per canonades o sockets", "Aïllament entre processos"], "correct": [0, 2, 3], "explanation": "Les respostes correctes són: Espais de memòria separats, Comunicació entre els processos per canonades o sockets, Aïllament entre processos", "topic": "Originales", "source": "Cuestionario original · pregunta 3"}, {"id": "o4", "n": 4, "q": "Com es poden establir dos canals independents pare-fill i fill-pare?", "options": ["Dues canonades", "Un getpid", "Una variable global", "Un printf"], "correct": [0], "explanation": "La resposta correcta és: Dues canonades", "topic": "Originales", "source": "Cuestionario original · pregunta 4"}, {"id": "o5", "n": 5, "q": "Què indica el retorn -1 de fork()?", "options": ["Èxit al fill", "Error de creació", "Finalització del pare", "Dos fills creats"], "correct": [1], "explanation": "La resposta correcta és: Error de creació", "topic": "Originales", "source": "Cuestionario original · pregunta 5"}, {"id": "o6", "n": 6, "q": "Si un procés executa fork() dues vegades consecutives, quants processos hi ha en total?", "options": ["3", "8", "4", "2"], "correct": [2], "explanation": "La resposta correcta és: 4", "topic": "Originales", "source": "Cuestionario original · pregunta 6"}, {"id": "o7", "n": 7, "q": "Quines afirmacions sobre Runtime.exec són correctes?", "options": ["No interpreta automàticament instruccions internes de shell", "Mostra automàticament tota l’eixida", "getInputStream permet llegir l’eixida", "Inicia processos externs"], "correct": [0, 2, 3], "explanation": "Les respostes correctes són: Inicia processos externs, No interpreta automàticament instruccions internes de shell, getInputStream permet llegir l’eixida", "topic": "Originales", "source": "Cuestionario original · pregunta 7"}, {"id": "o8", "n": 8, "q": "Quin fragment espera un fill concret identificat per pid?", "options": ["waitpid(pid, NULL, 0);", "waitpid(0, pid, 0);", "sleep(pid);", "wait(pid);"], "correct": [0], "explanation": "La resposta correcta és: waitpid(pid, NULL, 0);", "topic": "Originales", "source": "Cuestionario original · pregunta 8"}, {"id": "o9", "n": 9, "q": "Què ocorre si es crida start() dues vegades al mateix Thread?", "options": ["Es creen dos fils", "IllegalThreadStateException", "La segona s’ignora", "Es reinicia"], "correct": [1], "explanation": "La resposta correcta és: IllegalThreadStateException", "topic": "Originales", "source": "Cuestionario original · pregunta 9"}, {"id": "o10", "n": 10, "q": "Què retorna fork() al fill?", "options": ["0", "PID del pare", "1", "-1"], "correct": [0], "explanation": "La resposta correcta és: 0", "topic": "Originales", "source": "Cuestionario original · pregunta 10"}, {"id": "o11", "n": 11, "q": "Què és un deadlock?", "options": ["Un fil dorm 500 ms", "Alternança correcta", "Un fil acaba abans", "Dos fils esperen mútuament recursos retinguts per l’altre"], "correct": [3], "explanation": "La resposta correcta és: Dos fils esperen mútuament recursos retinguts per l’altre", "topic": "Originales", "source": "Cuestionario original · pregunta 11"}, {"id": "o12", "n": 12, "q": "Quin mètode espera que finalitze un procés extern Java?", "options": ["p.join()", "p.start()", "p.waitFor()", "p.sleep()"], "correct": [2], "explanation": "La resposta correcta és: p.waitFor()", "topic": "Originales", "source": "Cuestionario original · pregunta 12"}, {"id": "o13", "n": 13, "q": "Quins són els descriptors de pipe(fd)?", "options": ["Tots dos d’escriptura", "fd[0] escriptura, fd[1] lectura", "fd[0] lectura, fd[1] escriptura", "Tots dos de lectura"], "correct": [2], "explanation": "La resposta correcta és: fd[0] lectura, fd[1] escriptura", "topic": "Originales", "source": "Cuestionario original · pregunta 13"}, {"id": "o14", "n": 14, "q": "Què retorna read quan té èxit?", "options": ["Nombre de bytes llegits", "Sempre els bytes demanats", "PID emissor", "Descriptor"], "correct": [0], "explanation": "La resposta correcta és: Nombre de bytes llegits", "topic": "Originales", "source": "Cuestionario original · pregunta 14"}, {"id": "o15", "n": 15, "q": "Quina declaració de classe Thread és correcta?", "options": ["class Tasca implements Thread { public void run() {} }", "class Tasca extends Runnable { public void run() {} }", "class Tasca extends Thread { public void startThread() {} }", "class Tasca extends Thread { public void run() { System.out.println(\"OK\"); } }"], "correct": [3], "explanation": "La resposta correcta és: class Tasca extends Thread { public void run() { System.out.println(\"OK\"); } }", "topic": "Originales", "source": "Cuestionario original · pregunta 15"}, {"id": "o16", "n": 16, "q": "Quin problema apareix si dos fils modifiquen un Comptador compartit sense sincronització?", "options": ["Alternança garantida", "Còpies independents automàtiques", "Condicions de carrera", "Error de compilació"], "correct": [2], "explanation": "La resposta correcta és: Condicions de carrera", "topic": "Originales", "source": "Cuestionario original · pregunta 16"}, {"id": "o17", "n": 17, "q": "Quina funció retorna el PID del procés pare?", "options": ["getppid()", "wait()", "getpid()", "fork()"], "correct": [0], "explanation": "La resposta correcta és: getppid()", "topic": "Originales", "source": "Cuestionario original · pregunta 17"}, {"id": "o18", "n": 18, "q": "Quin mètode espera la finalització d’un fil concret?", "options": ["yield()", "interrupt()", "join()", "sleep()"], "correct": [2], "explanation": "La resposta correcta és: join()", "topic": "Originales", "source": "Cuestionario original · pregunta 18"}, {"id": "o19", "n": 19, "q": "Què fa firefox & en una shell?", "options": ["Executa en segon pla", "Duplica el procés", "Executa com a root", "Mata Firefox"], "correct": [0], "explanation": "La resposta correcta és: Executa en segon pla", "topic": "Originales", "source": "Cuestionario original · pregunta 19"}, {"id": "o20", "n": 20, "q": "Quines afirmacions sobre sincronització són correctes?", "options": ["Pot introduir esperes", "Sempre millora rendiment", "Pot ser necessària amb dades modificables compartides", "Cal coordinar el fil que administra el recurs"], "correct": [0, 2, 3], "explanation": "Les respostes correctes són: Pot ser necessària amb dades modificables compartides, Pot introduir esperes, Cal coordinar el fil que administra el recurs", "topic": "Originales", "source": "Cuestionario original · pregunta 20"}, {"id": "o21", "n": 21, "q": "Què és el PID?", "options": ["Identificador d’un procés", "Identificador de la memòria RAM", "Nom del programa", "Identificador de la CPU"], "correct": [0], "explanation": "La resposta correcta és: Identificador d’un procés", "topic": "Originales", "source": "Cuestionario original · pregunta 21"}, {"id": "o22", "n": 22, "q": "Quin fragment distingeix correctament pare i fill?", "options": ["if (fork() == 1) { /* fill */ }", "if (getpid() == 0) { /* fill */ }", "pid_t p = fork(); if (p == 0) { /* fill */ } else if (p > 0) { /* pare */ }", "pid_t p = fork(); if (p > 0) { /* fill */ }"], "correct": [2], "explanation": "La resposta correcta és: pid_t p = fork(); if (p == 0) { /* fill */ } else if (p > 0) { /* pare */ }", "topic": "Originales", "source": "Cuestionario original · pregunta 22"}, {"id": "o23", "n": 23, "q": "Quines ordres mostren informació sobre processos?", "options": ["mkdir", "top", "pstree", "ps"], "correct": [1, 2, 3], "explanation": "Les respostes correctes són: ps, top, pstree", "topic": "Originales", "source": "Cuestionario original · pregunta 23"}, {"id": "o24", "n": 24, "q": "Quin fragment executa cd /home i després pwd mitjançant Bash?", "options": ["Runtime.getRuntime().exec(\"pwd && cd /home\");", "Runtime.getRuntime().exec(\"cd\", \"/home\", \"pwd\");", "Runtime.getRuntime().exec(new String[]{\"bash\", \"-c\", \"cd /home && pwd\"});", "Runtime.getRuntime().exec(\"cd /home && pwd\");"], "correct": [2], "explanation": "La resposta correcta és: Runtime.getRuntime().exec(new String[]{\"bash\", \"-c\", \"cd /home && pwd\"});", "topic": "Originales", "source": "Cuestionario original · pregunta 24"}, {"id": "o25", "n": 25, "q": "Quina diferència hi ha entre start() i run()?", "options": ["start inicia un fil nou; quan cridem directament al run no és crea cap fil", "run crea un fil", "start només funciona amb Runnable", "Tots dos creen un fil"], "correct": [0], "explanation": "La resposta correcta és: start inicia un fil nou; quan cridem directament al run no és crea cap fil", "topic": "Originales", "source": "Cuestionario original · pregunta 25"}, {"id": "o26", "n": 26, "q": "Si dos fils entren en synchronized(comptador), què passa?", "options": ["Només un posseeix el monitor cada vegada", "Entren simultàniament", "El segon és destruït", "Es copia comptador"], "correct": [0], "explanation": "La resposta correcta és: Només un posseeix el monitor cada vegada", "topic": "Originales", "source": "Cuestionario original · pregunta 26"}, {"id": "o27", "n": 27, "q": "Què retorna Process.waitFor()?", "options": ["PID", "Bytes llegits", "Codi de finalització", "Nombre de fils"], "correct": [2], "explanation": "La resposta correcta és: Codi de finalització", "topic": "Originales", "source": "Cuestionario original · pregunta 27"}, {"id": "o28", "n": 28, "q": "Què retorna fork() al pare quan té èxit?", "options": ["0", "Nombre de fills", "PID del fill", "PID del pare"], "correct": [2], "explanation": "La resposta correcta és: PID del fill", "topic": "Originales", "source": "Cuestionario original · pregunta 28"}, {"id": "o29", "n": 29, "q": "Quina diferència fonamental hi ha entre procés i fil?", "options": ["Els fils només existeixen en Linux", "Un procés no pot crear fills", "Els fils del mateix procés comparteixen espai de memòria", "Cada fil té memòria independent"], "correct": [2], "explanation": "La resposta correcta és: Els fils del mateix procés comparteixen espai de memòria", "topic": "Originales", "source": "Cuestionario original · pregunta 29"}, {"id": "o30", "n": 30, "q": "Quines afirmacions sobre fils Java són correctes?", "options": ["L’ordre pot variar", "Poden compartir objectes", "Poden executar-se concurrentment", "Tenen prioritat immutable"], "correct": [0, 1, 2], "explanation": "Les respostes correctes són: Poden executar-se concurrentment, L’ordre pot variar, Poden compartir objectes", "topic": "Originales", "source": "Cuestionario original · pregunta 30"}, {"id": "o31", "n": 31, "q": "Què diferencia un procés d’un programa?", "options": ["Un procés no consumeix memòria", "Un programa té sempre un PID", "Un procés és un fitxer font", "Un procés és una instància en execució d’un programa"], "correct": [3], "explanation": "La resposta correcta és: Un procés és una instància en execució d’un programa", "topic": "Originales", "source": "Cuestionario original · pregunta 31"}, {"id": "o32", "n": 32, "q": "Quin tipus retorna Runtime.exec()?", "options": ["Runnable", "Runtime", "Thread", "Process"], "correct": [3], "explanation": "La resposta correcta és: Process", "topic": "Originales", "source": "Cuestionario original · pregunta 32"}, {"id": "o33", "n": 33, "q": "Què fa t.interrupt()?", "options": ["Reinicia run", "Destrueix sempre el fil", "Sol·licita la interrupció", "Suspén tots els fils"], "correct": [2], "explanation": "La resposta correcta és: Sol·licita la interrupció", "topic": "Originales", "source": "Cuestionario original · pregunta 33"}, {"id": "o34", "n": 34, "q": "Per a què serveix una canonada pipe?", "options": ["Crear fills", "Compartir variables locals", "Transmetre bytes entre processos", "Modificar prioritats"], "correct": [2], "explanation": "La resposta correcta és: Transmetre bytes entre processos", "topic": "Originales", "source": "Cuestionario original · pregunta 34"}, {"id": "o35", "n": 35, "q": "Quina excepció comprovada cal tractar o declarar en Thread.sleep()?", "options": ["InterruptedException", "IOException", "IllegalArgumentException", "ClassNotFoundException"], "correct": [0], "explanation": "La resposta correcta és: InterruptedException", "topic": "Originales", "source": "Cuestionario original · pregunta 35"}, {"id": "o36", "n": 36, "q": "Quantes vegades s’imprimeix Hola després de fork(); printf(\"Hola\\n\"); si fork té èxit?", "options": ["3", "2", "1", "4"], "correct": [1], "explanation": "La resposta correcta és: 2", "topic": "Originales", "source": "Cuestionario original · pregunta 36"}, {"id": "o37", "n": 37, "q": "Quines dues formes bàsiques permeten definir tasques multifil en Java?", "options": ["Heretar de Thread", "Implementar Process", "Heretar de Runtime", "Implementar Runnable"], "correct": [0, 3], "explanation": "Les respostes correctes són: Heretar de Thread, Implementar Runnable", "topic": "Originales", "source": "Cuestionario original · pregunta 37"}, {"id": "o38", "n": 38, "q": "Per què pot bloquejar-se un programa que no consumeix l’eixida d’un procés extern?", "options": ["Els buffers poden omplir-se", "exec crea un bucle infinit", "Falta synchronized", "getRuntime suspén el fil"], "correct": [0], "explanation": "La resposta correcta és: Els buffers poden omplir-se", "topic": "Originales", "source": "Cuestionario original · pregunta 38"}, {"id": "o39", "n": 39, "q": "Quina ordre mostra un arbre de processos amb PID?", "options": ["ps -h", "pstree -p", "top -p", "kill -p"], "correct": [1], "explanation": "La resposta correcta és: pstree -p", "topic": "Originales", "source": "Cuestionario original · pregunta 39"}, {"id": "o40", "n": 40, "q": "Quin fragment fa esperar el pare fins que acabe el fill?", "options": ["fork(); puts(\"Acabat\");", "if (fork() > 0) { wait(NULL); puts(\"Acabat\"); }", "wait(NULL); fork();", "if (fork() == 0) { wait(NULL); puts(\"Acabat\"); }"], "correct": [1], "explanation": "La resposta correcta és: if (fork() > 0) { wait(NULL); puts(\"Acabat\"); }", "topic": "Originales", "source": "Cuestionario original · pregunta 40"}, {"id": "o41", "n": 41, "q": "Com s’obté Runtime en Java?", "options": ["new Runtime()", "Runtime.start()", "Process.getRuntime()", "Runtime.getRuntime()"], "correct": [3], "explanation": "La resposta correcta és: Runtime.getRuntime()", "topic": "Originales", "source": "Cuestionario original · pregunta 41"}];
+        const EXTRA = [{"id": "n1", "q": "¿Qué información forma parte de un proceso?", "options": ["Contador de programa", "Imagen de memoria", "Estado de los registros", "Únicamente el archivo fuente"], "correct": [0, 1, 2], "explanation": "Un proceso incluye su posición de ejecución, memoria y estado del procesador.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n2", "q": "Un mismo programa puede tener varias instancias en ejecución con datos distintos.", "options": ["Verdadero", "Falso"], "correct": [0], "explanation": "Cada instancia es un proceso independiente.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n3", "q": "¿Qué describe mejor un daemon o servicio?", "options": ["Un archivo de código fuente", "Un proceso no interactivo en segundo plano", "Un registro de CPU", "Un compilador"], "correct": [1], "explanation": "Proporciona servicios en segundo plano sin una interfaz de usuario interactiva.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n4", "q": "En un único núcleo, la concurrencia exige ejecutar todas las instrucciones simultáneamente.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "La multiprogramación intercala la ejecución de distintas tareas.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n5", "q": "¿Qué permite ejecutar instrucciones simultáneamente?", "options": ["Un sistema con varios núcleos", "Un único núcleo sin alternancia", "Una variable local", "Un PID"], "correct": [0], "explanation": "Varios núcleos permiten paralelismo real.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n6", "q": "¿Qué caracteriza a la programación distribuida?", "options": ["Varios equipos conectados en red", "Cada equipo tiene su propia memoria", "Todos los equipos usan necesariamente una única RAM física", "Comunicación entre equipos"], "correct": [0, 1, 3], "explanation": "Los equipos coordinan su trabajo a través de la red.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n7", "q": "¿Qué parte del sistema operativo gestiona los recursos y ofrece llamadas al sistema?", "options": ["El editor", "El kernel", "El navegador", "El archivo ejecutable"], "correct": [1], "explanation": "El kernel proporciona los servicios básicos del sistema.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n8", "q": "¿Para qué sirven las llamadas al sistema?", "options": ["Para acceder de forma controlada a servicios del kernel", "Para evitar siempre el planificador", "Para convertir un hilo en archivo", "Para eliminar la RAM"], "correct": [0], "explanation": "Son la interfaz entre los programas y los servicios del núcleo.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n9", "q": "¿En qué modo se ejecutan las instrucciones privilegiadas?", "options": ["Modo usuario", "Modo texto", "Modo kernel", "Modo bloqueado"], "correct": [2], "explanation": "El modo kernel permite realizar operaciones protegidas.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n10", "q": "Un proceso listo está preparado para ejecutarse, pero espera que se le asigne CPU.", "options": ["Verdadero", "Falso"], "correct": [0], "explanation": "Estar listo no equivale a estar ejecutándose.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n11", "q": "¿Qué estado corresponde a esperar una operación de E/S?", "options": ["Nuevo", "Bloqueado", "Terminado", "Siempre en ejecución"], "correct": [1], "explanation": "El proceso queda bloqueado mientras espera el suceso.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n12", "q": "Tras completarse la E/S, un proceso bloqueado debe volver a ser planificado.", "options": ["Verdadero", "Falso"], "correct": [0], "explanation": "Vuelve a estar listo; no obtiene obligatoriamente la CPU de inmediato.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n13", "q": "¿Qué selecciona el planificador a corto plazo?", "options": ["El próximo proceso listo que usará la CPU", "El nombre del programa", "El tamaño del disco", "La contraseña del usuario"], "correct": [0], "explanation": "Selecciona de la cola de preparados el siguiente proceso a ejecutar.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n14", "q": "¿Qué controla principalmente el planificador a largo plazo?", "options": ["El grado de multiprogramación", "El color de la terminal", "Los nombres de variables", "Los bytes de una tubería"], "correct": [0], "explanation": "Decide qué procesos nuevos se admiten en la cola de preparados.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n15", "q": "¿Qué es un quantum en tiempo compartido?", "options": ["Un intervalo de uso de CPU", "Un archivo FIFO", "Un PID especial", "Un método Java"], "correct": [0], "explanation": "Al agotarse el intervalo, el sistema puede dar paso a otro proceso.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n16", "q": "¿Qué se conserva en un cambio de contexto?", "options": ["Estado del proceso", "Registros del procesador", "Información de memoria", "Solo la extensión del ejecutable"], "correct": [0, 1, 2], "explanation": "Se guarda el contexto actual y se restaura el del siguiente proceso.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n17", "q": "El cambio de contexto tiene un coste de tiempo.", "options": ["Verdadero", "Falso"], "correct": [0], "explanation": "Guardar y restaurar estados introduce trabajo de gestión.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n18", "q": "Tras fork(), modificar una variable local del hijo cambia automáticamente la del padre.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "Padre e hijo tienen espacios de memoria independientes.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n19", "q": "¿Qué operación permite que un proceso indique su terminación?", "options": ["exit", "create", "read", "start"], "correct": [0], "explanation": "exit indica que el proceso finaliza y permite comunicar información de terminación.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n20", "q": "¿Qué recurso permite que procesos cooperantes accedan a una región común?", "options": ["Memoria compartida", "Variables locales independientes", "Un contador de programa privado", "El nombre del ejecutable"], "correct": [0], "explanation": "Se establece expresamente una región accesible por varios procesos.", "topic": "Procesos y sistema operativo", "source": "T1S1 · Programació multiprocés"}, {"id": "n21", "q": "En una tubería de padre a hijo, ¿qué extremos deben cerrarse porque no se utilizan?", "options": ["El padre cierra fd[0]", "El hijo cierra fd[1]", "El padre cierra fd[1] antes de escribir", "El hijo cierra fd[0] antes de leer"], "correct": [0, 1], "explanation": "El padre conserva escritura y el hijo conserva lectura.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n22", "q": "En una tubería de hijo a padre, ¿qué descriptor conserva el padre para recibir?", "options": ["fd[1]", "fd[0]", "El PID del hijo", "Ninguno"], "correct": [1], "explanation": "El extremo de lectura es fd[0].", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n23", "q": "¿Qué llamada envía bytes a una tubería?", "options": ["fork", "wait", "write", "exit"], "correct": [2], "explanation": "write escribe en el descriptor del extremo de escritura.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n24", "q": "Una tubería anónima proporciona por sí sola dos canales independientes de ida y vuelta.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "El esquema bidireccional del temario utiliza dos tuberías.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n25", "q": "¿Qué aporta un FIFO frente a la tubería anónima del ejemplo padre-hijo?", "options": ["Un nombre en el sistema de archivos", "Comunicación entre procesos sin relación padre-hijo", "Memoria local automáticamente compartida", "Un nuevo hilo Java"], "correct": [0, 1], "explanation": "Los procesos pueden abrir el FIFO por su nombre.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n26", "q": "Los datos consumidos de un FIFO pueden releerse como si fueran un archivo ordinario.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "El FIFO se consume como una cola; los datos leídos no permanecen para releerlos.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n27", "q": "¿Qué orden crea el FIFO llamado canal?", "options": ["mkdir canal", "mknod canal p", "fork canal", "ps canal"], "correct": [1], "explanation": "El argumento p solicita una tubería con nombre.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n28", "q": "En mknod(\"FIFO1\", S_IFIFO|0644, 0), ¿qué indica S_IFIFO?", "options": ["Tipo FIFO", "PID del lector", "Número de bytes", "Tipo directorio"], "correct": [0], "explanation": "S_IFIFO selecciona el tipo de archivo especial FIFO.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n29", "q": "¿Qué demuestra ejecutar cat FIFO1 y luego ls > FIFO1 en otra terminal?", "options": ["Un proceso envía datos y otro los lee", "Se crean hilos Java", "Se comparte una variable local", "Se cambia el PID"], "correct": [0], "explanation": "ls escribe en el FIFO y cat recibe su contenido.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n30", "q": "¿Qué mecanismos enumera el tema para comunicación o coordinación entre procesos?", "options": ["Pipes", "Colas", "Semáforos", "Memoria compartida"], "correct": [0, 1, 2, 3], "explanation": "El documento presenta estos cuatro mecanismos; los semáforos se usan para coordinación.", "topic": "Comunicación entre procesos", "source": "T1S3 · Comunicació entre processos"}, {"id": "n31", "q": "¿Qué representa Runtime en una aplicación Java?", "options": ["El entorno de ejecución de la aplicación", "Un archivo de salida", "Un hilo nuevo por cada llamada", "Una tubería de C"], "correct": [0], "explanation": "La aplicación dispone de su instancia de Runtime.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n32", "q": "¿Qué flujo usarías para enviar la cadena Hola a la entrada de un subproceso?", "options": ["p.getInputStream()", "p.getOutputStream()", "p.getErrorStream()", "System.err"], "correct": [1], "explanation": "Desde Java se escribe en getOutputStream para alimentar la entrada del hijo.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n33", "q": "¿Qué permite leer los mensajes de error emitidos por un subproceso?", "options": ["getErrorStream()", "getRuntime()", "getName()", "setPriority()"], "correct": [0], "explanation": "La salida de error es un flujo distinto de la salida estándar.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n34", "q": "¿Qué componentes se usan en el ejemplo para leer líneas de salida?", "options": ["InputStreamReader", "BufferedReader", "readLine()", "setPriority()"], "correct": [0, 1, 2], "explanation": "El lector transforma el flujo y BufferedReader permite leerlo línea a línea.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n35", "q": "¿Qué indica normalmente un código de terminación 0?", "options": ["Finalización correcta", "Proceso aún no creado", "Bloqueo obligatorio", "Error de compilación siempre"], "correct": [0], "explanation": "Es la convención de terminación correcta que se usa en los ejemplos.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n36", "q": "¿Qué clases presenta el tema para guardar la salida en un archivo?", "options": ["FileOutputStream", "PrintWriter", "ThreadGroup", "Runnable"], "correct": [0, 1], "explanation": "Permiten escribir el contenido recibido del proceso en un archivo.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n37", "q": "¿Qué comando se propone para listar procesos en Windows?", "options": ["tasklist /v", "ls -l", "pwd", "mkdir"], "correct": [0], "explanation": "La práctica propone tasklist /v; en Linux utiliza ps -ef.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n38", "q": "Si javac no se reconoce, ¿qué configuración conviene revisar según el PDF?", "options": ["El directorio java/bin en PATH", "La prioridad del hilo", "El monitor de un objeto", "El descriptor fd[0]"], "correct": [0], "explanation": "PATH permite localizar el ejecutable del compilador.", "topic": "Procesos en Java", "source": "T2S1 · Creació de processos en Java"}, {"id": "n39", "q": "¿Por qué exec(\"cd /home\") no sirve normalmente para cambiar de directorio?", "options": ["cd es una orden interna de la shell", "Java no admite cadenas", "cd siempre necesita un PID", "exec solo ejecuta hilos"], "correct": [0], "explanation": "Hay que invocar expresamente un intérprete para ejecutar órdenes internas.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n40", "q": "Ejecutar bash -c \"cd /home && pwd\" desde Java cambia el directorio de trabajo del propio programa Java.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "El cambio afecta a la shell hija que se ha creado.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n41", "q": "¿Qué afirmaciones sobre exec(\"ls\") son correctas?", "options": ["Puede ejecutar ls correctamente", "Es necesario leer su salida para mostrarla desde Java", "Siempre imprime automáticamente todo", "No usa automáticamente una shell"], "correct": [0, 1, 3], "explanation": "Ejecutar el proceso y mostrar sus flujos son tareas distintas.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n42", "q": "¿Qué se necesita para interpretar && o > como operadores de shell al usar exec?", "options": ["Invocar explícitamente una shell", "Usar join()", "Aumentar la prioridad", "Llamar a getId()"], "correct": [0], "explanation": "exec no interpreta esos operadores por sí mismo.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n43", "q": "Consumir solo stdout siempre evita los bloqueos aunque el hijo escriba mucho en stderr.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "El búfer de stderr también puede llenarse: hay que gestionarlo.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n44", "q": "¿Qué alternativas menciona la síntesis para gestionar flujos con ProcessBuilder?", "options": ["inheritIO()", "redirectErrorStream(true)", "setName()", "getPriority()"], "correct": [0, 1], "explanation": "inheritIO hereda los flujos; redirectErrorStream(true) combina error y salida.", "topic": "Runtime y shell", "source": "Síntesis · Runtime.exec()"}, {"id": "n45", "q": "¿Qué método contiene el trabajo de una tarea Runnable?", "options": ["run()", "exec()", "mainThread()", "fork()"], "correct": [0], "explanation": "run define la tarea; un Thread puede ejecutarla al llamar a start.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n46", "q": "¿Qué instrucción inicia un hilo que ejecutará una tarea Runnable llamada tarea?", "options": ["new Thread(tarea).start();", "tarea.exec();", "new Process(tarea);", "Thread.join(tarea);"], "correct": [0], "explanation": "Se entrega el Runnable al Thread y se inicia con start.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n47", "q": "¿Para qué sirve isAlive()?", "options": ["Para comprobar si el hilo ha arrancado y aún no ha terminado", "Para crear un proceso", "Para bloquear un objeto", "Para obtener el PID del padre"], "correct": [0], "explanation": "Indica si el hilo sigue vivo.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n48", "q": "¿Cuáles son estados devueltos por getState()?", "options": ["NEW", "RUNNABLE", "WAITING", "COMPILED"], "correct": [0, 1, 2], "explanation": "COMPILED no es un estado de Thread; también existen BLOCKED, TIMED_WAITING y TERMINATED.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n49", "q": "¿En qué unidad recibe Thread.sleep(long) su duración?", "options": ["Segundos", "Minutos", "Milisegundos", "Bytes"], "correct": [2], "explanation": "El argumento expresa milisegundos.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n50", "q": "¿Qué métodos permiten consultar y cambiar el nombre de un hilo?", "options": ["getName()", "setName(String)", "getInputStream()", "waitFor()"], "correct": [0, 1], "explanation": "Los nombres se gestionan con getName y setName.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n51", "q": "¿Qué devuelve Thread.currentThread()?", "options": ["Una referencia al hilo que ejecuta la llamada", "El padre del proceso", "Un Runtime nuevo", "El flujo de error"], "correct": [0], "explanation": "Permite acceder al objeto Thread del hilo actual.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n52", "q": "Dos hilos con sleep(1000) garantizan una alternancia perfecta TIC-TAC.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "Dormir no coordina los turnos; el orden depende de la planificación.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n53", "q": "¿Qué métodos gestionan la prioridad de un hilo?", "options": ["getPriority()", "setPriority(int)", "getErrorStream()", "readLine()"], "correct": [0, 1], "explanation": "La prioridad se consulta y modifica con esos métodos.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n54", "q": "El orden de creación de los hilos garantiza su orden de ejecución.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "La planificación puede producir un orden diferente en cada ejecución.", "topic": "Hilos en Java", "source": "T2S2 · Programació multifil"}, {"id": "n55", "q": "¿Qué problema muestra el ejemplo del contador sin sincronizar?", "options": ["El resultado puede variar por accesos concurrentes", "Siempre da cero", "No compila por compartir un objeto", "Cada hilo obtiene obligatoriamente una copia"], "correct": [0], "explanation": "Incrementos y decrementos pueden interferir si no se protege la operación.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n56", "q": "¿Qué significa ejecutar una sección crítica en exclusión mutua?", "options": ["Un solo hilo a la vez accede con el mismo bloqueo", "Se ejecutan todos simultáneamente", "Se duplica la memoria", "Se elimina el planificador"], "correct": [0], "explanation": "La exclusión se establece entre quienes utilizan el mismo monitor.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n57", "q": "¿Qué objeto se usa como monitor en synchronized(comptador)?", "options": ["comptador", "Siempre la clase Thread", "Un objeto distinto por cada entrada", "El flujo stdout"], "correct": [0], "explanation": "El bloqueo corresponde al objeto indicado entre paréntesis.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n58", "q": "Dos métodos de instancia synchronized del mismo objeto comparten bloqueo.", "options": ["Verdadero", "Falso"], "correct": [0], "explanation": "Un segundo hilo debe esperar aunque intente entrar en otro método sincronizado del mismo objeto.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n59", "q": "Dos objetos distintos de la misma clase comparten necesariamente su bloqueo de instancia.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "Cada objeto tiene su propio monitor.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n60", "q": "Para retirar dinero de una cuenta compartida, ¿qué debería protegerse como una única operación?", "options": ["Comprobar saldo y efectuar retirada", "Solo imprimir el nombre", "Solo crear el hilo", "Solo consultar su prioridad"], "correct": [0], "explanation": "Separar la comprobación y la retirada permite que otro hilo cambie el saldo entre ambas.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n61", "q": "¿Qué declaración sincroniza un método de instancia?", "options": ["public synchronized void retirar() {}", "public void synchronized retirar() {}", "public sync retirar() {}", "synchronized public class retirar {}"], "correct": [0], "explanation": "synchronized se coloca entre los modificadores del método.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n62", "q": "¿Qué puede ocurrir cuando otro hilo posee el monitor que se necesita?", "options": ["El hilo debe esperar para entrar", "El hilo se destruye automáticamente", "Se copia el objeto", "Se omite la sección crítica"], "correct": [0], "explanation": "Debe adquirir el monitor antes de entrar en el bloque protegido.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n63", "q": "Añadir synchronized garantiza qué hilo entrará primero.", "options": ["Verdadero", "Falso"], "correct": [1], "explanation": "Garantiza exclusión mutua con el mismo bloqueo, no un orden fijo.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}, {"id": "n64", "q": "¿Qué afirmaciones se aplican al ejemplo de cuenta compartida?", "options": ["Varios hilos usan el mismo objeto", "Comprobar y retirar debe coordinarse", "Sincronizar puede introducir esperas", "Cambiar el nombre del hilo evita las carreras"], "correct": [0, 1, 2], "explanation": "El nombre no protege datos; es necesario coordinar el acceso al saldo.", "topic": "Sincronización", "source": "T2S4 · Mètodes sincronitzats"}];
+    </script>
+    <script>const $ = s => document.querySelector(s), app = $('#app');
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+        const all = [...ORIGINALS, ...EXTRA], topics = [...new Set(EXTRA.map(q => q.topic))];
+        let history = []; try {history = JSON.parse(localStorage.getItem('psp-history') || '[]')} catch { }
+        let session = null; try {session = JSON.parse(localStorage.getItem('psp-session') || 'null')} catch { }
+        let bank = [], answers = {}, checked = {}, pos = 0, mode = 'practice', kind = 'original';
+        const exact = (q, a = []) => a.length === q.correct.length && q.correct.every(i => a.includes(i));
+        const persist = () => {try {localStorage.setItem('psp-session', JSON.stringify({ids: bank.map(q => q.id), answers, checked, pos, mode, kind}))} catch { } };
+        function home() {
+            let saved = null; try {saved = JSON.parse(localStorage.getItem('psp-session') || 'null')} catch { }
+            app.innerHTML = `<section class="hero"><div><div class="eyebrow">TU ESPACIO DE ESTUDIO</div><h1>Menos dudas.<br><em>Más práctica.</em></h1><p class="sub">Procesos, hilos y sincronización. Repasa las preguntas originales o pon a prueba lo que sabes con nuevos retos del temario.</p></div><div class="diagram" aria-hidden="true"><span class="node a">main()</span><span class="node b">proceso</span><span class="node c">hilo</span></div></section><div class="stats"><span><b>105</b> preguntas</span><span><b>6</b> documentos</span><span><b>${history.length}</b> tests completados</span></div><div class="bottom-row"><h2 class="section-title">Elige cómo quieres practicar</h2>${saved ? '<button class="btn" id="resume">Continuar sesión →</button>' : ''}</div><div class="cards"><section class="card featured"><div class="card-top"><span class="icon">▤</span><span class="badge">TUS PREGUNTAS · 41</span></div><h2>El cuestionario original</h2><p>Las 41 preguntas que enviaste, con sus enunciados, opciones y respuestas originales. En valenciano y en el mismo orden.</p><div class="pills"><span class="tag">Respuesta única</span><span class="tag">Selección múltiple</span><span class="tag">Contenido íntegro</span></div><button class="btn primary" id="original">Practicar originales <span>↗</span></button></section><section class="card"><div class="card-top"><span class="icon">✳</span><span class="badge">NUEVAS PREGUNTAS · 64</span></div><h2>Un paso más</h2><p>Preguntas nuevas basadas en los seis PDF. Repasa conceptos, interpreta código y distingue lo verdadero de lo falso.</p><div class="pills"><span class="tag">Por temas</span><span class="tag">Selección múltiple</span><span class="tag">Verdadero / falso</span></div><button class="btn" id="extra">Practicar el temario <span>↗</span></button></section></div><div class="settings"><label><small>Corrección</small><select id="mode"><option value="practice">Práctica · después de cada pregunta</option><option value="exam">Examen · al terminar</option></select></label><label><small>Tema de preguntas nuevas</small><select id="topic"><option value="all">Todo el temario</option>${topics.map(t => `<option>${esc(t)}</option>`).join('')}</select></label><label><small>Cantidad de preguntas nuevas</small><select id="count"><option value="all">Todas las del tema</option><option value="20">20 al azar</option><option value="10">10 al azar</option></select></label></div><p class="tip">Cada pregunta vale 1 punto, sin penalización. En selección múltiple debes marcar todas las correctas y ninguna incorrecta. Es una puntuación de práctica; no reproduce las penalizaciones del cuestionario original.</p><div class="bottom-row"><p class="tip">Las originales conservan su contenido; las nuevas incluyen explicación y referencia al PDF.</p>${history.length ? `<button class="link" id="last">Ver último resultado →</button>` : ''}</div>`;
+            $('#original').onclick = () => start(ORIGINALS, 'original'); $('#extra').onclick = () => {let qs = EXTRA.filter(q => $('#topic').value === 'all' || q.topic === $('#topic').value); if ($('#count').value !== 'all') qs = shuffle(qs).slice(0, Number($('#count').value)); start(qs, 'extra')}; if (saved) $('#resume').onclick = () => {bank = saved.ids.map(id => all.find(q => q.id === id)).filter(Boolean); answers = saved.answers; checked = saved.checked; pos = Math.min(saved.pos, bank.length - 1); mode = saved.mode; kind = saved.kind; render()}; if (history.length) $('#last').onclick = () => {const h = history.at(-1); bank = h.ids.map(id => all.find(q => q.id === id)); answers = h.answers; results(false)};
+        }
+        function shuffle(qs) {qs = [...qs]; for (let i = qs.length - 1; i > 0; i--) {const j = Math.floor(Math.random() * (i + 1));[qs[i], qs[j]] = [qs[j], qs[i]]} return qs}
+        function start(qs, k) {mode = $('#mode')?.value || 'practice'; kind = k; bank = [...qs]; answers = {}; checked = {}; pos = 0; persist(); render(); window.scrollTo(0, 0)}
+        function render() {
+            const q = bank[pos], a = answers[q.id] || [], done = !!checked[q.id], multi = q.correct.length > 1; persist(); app.innerHTML = `<div class="quiz-top"><button class="link" id="home">← Guardar y volver</button><span class="eyebrow">${kind === 'original' ? 'Cuestionario original' : 'Práctica del temario'}</span><span>${pos + 1} / ${bank.length}</span></div><div class="progress"><span style="width:${(pos + 1) / bank.length * 100}%"></span></div><div class="quiz-layout"><section class="question-card"><div class="meta"><span class="eyebrow">${esc(q.topic)}${q.n ? ' · ' + q.n : ''}</span><span class="tag">${multi ? 'Selección múltiple' : q.options.length === 2 ? 'Verdadero / falso' : 'Respuesta única'}</span></div><h1 class="q-title" tabindex="-1">${esc(q.q)}</h1><p class="tip">${multi ? 'Marca todas las respuestas que consideres correctas.' : 'Selecciona una respuesta.'}</p><div class="options">${q.options.map((o, i) => `<label class="option ${done ? (q.correct.includes(i) ? 'good' : a.includes(i) ? 'bad' : '') : ''}"><input type="${multi ? 'checkbox' : 'radio'}" name="answer" value="${i}" ${a.includes(i) ? 'checked' : ''} ${done ? 'disabled' : ''}><span class="letter">${'ABCD'[i]}.</span><span>${esc(o)}</span></label>`).join('')}</div>${done ? `<div class="feedback ${exact(q, a) ? '' : 'wrong'}" role="status"><b>${exact(q, a) ? '¡Correcto!' : 'Vamos a repasarla'}</b><p>${esc(q.explanation)}</p><p><b>Respuesta${multi ? 's' : ''}:</b> ${q.correct.map(i => esc(q.options[i])).join(' · ')}</p><div class="source">${esc(q.source)}</div></div>` : ''}<div class="actions"><button class="btn" id="prev" ${pos === 0 ? 'disabled' : ''}>← Anterior</button>${mode === 'practice' && !done ? `<button class="btn primary" id="check" ${!a.length ? 'disabled' : ''}>Comprobar respuesta</button>` : `<button class="btn primary" id="next">${pos === bank.length - 1 ? 'Ver resultados' : 'Siguiente →'}</button>`}</div>${mode === 'exam' || done ? '' : '<button class="link" id="skip" style="margin-top:18px">Dejar sin responder →</button>'}</section><aside class="side"><h3>Tu recorrido</h3><div class="navgrid">${bank.map((x, i) => `<button data-pos="${i}" class="${i === pos ? 'current' : ''} ${(answers[x.id] || []).length ? 'answered' : ''}" aria-label="Ir a pregunta ${i + 1}">${i + 1}</button>`).join('')}</div><p class="tip">${Object.values(answers).filter(a => a.length).length} de ${bank.length} respondidas.<br>Puedes moverte entre preguntas.</p><button class="btn" id="finish" style="width:100%">Terminar test</button><p class="tip">${mode === 'exam' ? 'Corrección al terminar.' : 'Explicación después de comprobar.'}</p></aside></div>`;
+            $('#home').onclick = home; document.querySelectorAll('input[name=answer]').forEach(input => input.onchange = () => {answers[q.id] = Array.from(document.querySelectorAll('input[name=answer]:checked')).map(e => +e.value); persist(); if ($('#check')) $('#check').disabled = !answers[q.id].length}); $('#prev').onclick = () => {pos--; render()}; if ($('#check')) $('#check').onclick = () => {checked[q.id] = true; render()}; if ($('#next')) $('#next').onclick = next; if ($('#skip')) $('#skip').onclick = next; document.querySelectorAll('[data-pos]').forEach(b => b.onclick = () => {pos = +b.dataset.pos; render()}); $('#finish').onclick = finish;
+        }
+        function next() {if (pos < bank.length - 1) {pos++; render(); $('.q-title').focus()} else finish()}
+        function finish() {let missing = bank.filter(q => !answers[q.id]?.length).length; if (missing && !confirm(`Quedan ${missing} preguntas sin responder. Contarán como no acertadas. ¿Terminar el test?`)) return; results(true)}
+        function results(save) {let hits = bank.filter(q => exact(q, answers[q.id])).length, wrong = bank.filter(q => !exact(q, answers[q.id])); if (save) {history.push({ids: bank.map(q => q.id), answers: JSON.parse(JSON.stringify(answers)), date: Date.now()}); history = history.slice(-30); try {localStorage.setItem('psp-history', JSON.stringify(history)); localStorage.removeItem('psp-session')} catch { } } app.innerHTML = `<button class="link" id="home">← Volver al inicio</button><section class="result-head"><div class="eyebrow">TEST COMPLETADO</div><h1>Un paso más cerca.</h1><div class="score">${(hits / bank.length * 10).toFixed(1)}<span style="font-size:22px;color:var(--muted)"> / 10</span></div><p class="sub" style="margin:auto">${hits} aciertos de ${bank.length} preguntas · ${wrong.length} por repasar.<br>Cada intento te ayuda a detectar qué necesitas reforzar.</p><div class="actions" style="justify-content:center"><button class="btn primary" id="retry">Repetir este test</button><button class="btn" id="mistakes" ${wrong.length ? '' : 'disabled'}>Repasar fallos (${wrong.length})</button></div></section><h2 class="section-title">Revisa tus respuestas</h2>${bank.map((q, i) => `<article class="review-item"><span class="eyebrow ${exact(q, answers[q.id]) ? 'success' : 'error'}">${exact(q, answers[q.id]) ? '✓ Correcta' : answers[q.id]?.length ? '↻ Incorrecta' : '○ Sin responder'} · ${i + 1}</span><h3>${esc(q.q)}</h3><p><b>Tu respuesta:</b> ${(answers[q.id] || []).map(i => esc(q.options[i])).join(' · ') || 'Sin responder'}</p><p class="success"><b>Correcta:</b> ${q.correct.map(i => esc(q.options[i])).join(' · ')}</p><p>${esc(q.explanation)}</p><div class="source">${esc(q.source)}</div></article>`).join('')}`; $('#home').onclick = home; $('#retry').onclick = () => start(bank, kind); $('#mistakes').onclick = () => start(wrong, 'repaso'); window.scrollTo(0, 0)}
+        home();
+    </script>
+</body>
+
+</html>
